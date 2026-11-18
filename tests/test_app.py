@@ -43,6 +43,29 @@ class GestaoTarefasTests(unittest.TestCase):
                 db.engine.dispose()
             self.assertTrue(os.path.isfile(caminho_base))
 
+    def test_urls_postgres_usam_driver_psycopg2(self):
+        casos = (
+            (
+                "postgres://db.example/tarefas",
+                "postgresql+psycopg2://db.example/tarefas",
+            ),
+            (
+                "postgresql://db.example/tarefas",
+                "postgresql+psycopg2://db.example/tarefas",
+            ),
+        )
+        for url, url_esperada in casos:
+            with self.subTest(url=url):
+                with patch.dict(os.environ, {"DATABASE_URL": url}):
+                    with patch.object(db, "create_all"):
+                        app_postgres = create_app()
+
+                self.assertEqual(
+                    app_postgres.config["SQLALCHEMY_DATABASE_URI"], url_esperada
+                )
+                with app_postgres.app_context():
+                    db.engine.dispose()
+
     def test_pagina_inicial_mostra_identificacao(self):
         resposta = self.client.get("/")
         self.assertEqual(resposta.status_code, 200)
