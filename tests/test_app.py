@@ -1,5 +1,8 @@
+import os
+import tempfile
 import unittest
 from datetime import date
+from unittest.mock import patch
 
 from app import create_app, db
 from app.models import Tarefa
@@ -24,6 +27,21 @@ class GestaoTarefasTests(unittest.TestCase):
         db.session.remove()
         db.drop_all()
         self.context.pop()
+
+    def test_usa_diretorio_temporario_no_vercel_sem_base_externa(self):
+        with tempfile.TemporaryDirectory() as diretorio_temporario:
+            with patch.dict(os.environ, {"VERCEL": "1", "DATABASE_URL": ""}):
+                with patch("app.tempfile.gettempdir", return_value=diretorio_temporario):
+                    app_vercel = create_app()
+
+            caminho_base = os.path.join(diretorio_temporario, "tarefas.db")
+            self.assertEqual(
+                app_vercel.config["SQLALCHEMY_DATABASE_URI"],
+                f"sqlite:///{caminho_base}",
+            )
+            with app_vercel.app_context():
+                db.engine.dispose()
+            self.assertTrue(os.path.isfile(caminho_base))
 
     def test_pagina_inicial_mostra_identificacao(self):
         resposta = self.client.get("/")

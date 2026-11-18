@@ -1,4 +1,5 @@
 import os
+import tempfile
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -14,8 +15,12 @@ def create_app(test_config=None):
         if database_url.startswith("postgres://"):
             database_url = database_url.replace("postgres://", "postgresql://", 1)
     else:
-        os.makedirs(app.instance_path, exist_ok=True)
-        database_url = f"sqlite:///{os.path.join(app.instance_path, 'tarefas.db')}"
+        if os.environ.get("VERCEL"):
+            database_path = os.path.join(tempfile.gettempdir(), "tarefas.db")
+        else:
+            os.makedirs(app.instance_path, exist_ok=True)
+            database_path = os.path.join(app.instance_path, "tarefas.db")
+        database_url = f"sqlite:///{database_path}"
 
     app.config.from_mapping(
         SECRET_KEY=os.environ.get("SECRET_KEY", "chave-local-para-desenvolvimento"),
