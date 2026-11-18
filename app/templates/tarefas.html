@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Gestão de Tarefas{% endblock %}
+
+{% block content %}
+<h1>Gestão de Tarefas</h1>
+
+<h2>Nova Tarefa</h2>
+<form method="post" action="{{ url_for('tarefas.lista') }}">
+  <p>
+    <label>Descrição:<br>
+      <input type="text" name="descricao" required>
+    </label>
+  </p>
+  <p>
+    <label>Data de fim:<br>
+      <input type="date" name="data_fim" required>
+    </label>
+  </p>
+  <p>
+    <label>Tempo previsto (minutos):<br>
+      <input type="number" name="tempo_previsto" min="1" max="6000" required>
+    </label>
+  </p>
+  <p>
+    <button type="submit">Guardar</button>
+  </p>
+</form>
+
+<hr>
+
+<h2>Lista de Tarefas</h2>
+{% if tarefas %}
+<table>
+  <thead>
+    <tr>
+      <th>Descrição</th>
+      <th>Data de Fim</th>
+      <th>Tempo (min)</th>
+      <th>Estado</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for tarefa in tarefas %}
+    <tr>
+      <td>{{ tarefa.descricao }}</td>
+      <td>{{ tarefa.data_fim.strftime('%d/%m/%Y') }}</td>
+      <td>{{ tarefa.tempo_previsto }}</td>
+      <td>{{ estados[tarefa.estado] }}</td>
+      <td>
+        <a href="{{ url_for('tarefas.editar', tarefa_id=tarefa.id) }}">Editar</a>
+        <form method="post" action="{{ url_for('tarefas.apagar', tarefa_id=tarefa.id) }}" class="form-inline">
+          <button type="submit">Apagar</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>Sem tarefas registadas.</p>
+{% endif %}
+{% endblock %}

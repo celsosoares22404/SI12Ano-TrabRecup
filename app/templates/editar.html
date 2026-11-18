@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Editar Tarefa{% endblock %}
+
+{% block content %}
+<h1>Editar Tarefa</h1>
+
+<form method="post">
+  <p>
+    <label>Descrição:<br>
+      <input type="text" name="descricao" value="{{ tarefa.descricao }}" required>
+    </label>
+  </p>
+  <p>
+    <label>Data de fim:<br>
+      <input type="date" name="data_fim" value="{{ tarefa.data_fim.isoformat() }}" required>
+    </label>
+  </p>
+  <p>
+    <label>Tempo previsto (minutos):<br>
+      <input type="number" name="tempo_previsto" min="1" max="6000" value="{{ tarefa.tempo_previsto }}" required>
+    </label>
+  </p>
+  <p>
+    <label>Estado:<br>
+      <select name="estado">
+        {% for valor, rotulo in estados.items() %}
+          <option value="{{ valor }}" {% if tarefa.estado == valor %}selected{% endif %}>{{ rotulo }}</option>
+        {% endfor %}
+      </select>
+    </label>
+  </p>
+  <p>
+    <button type="submit">Guardar Alterações</button>
+    <a href="{{ url_for('tarefas.lista') }}">Cancelar</a>
+  </p>
+</form>
+{% endblock %}

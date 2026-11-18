@@ -1,0 +1,74 @@
+body {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #333333;
+}
+
+nav {
+  background-color: #f4f6f8;
+  padding: 10px 16px;
+  border: 1px solid #d0d7de;
+  margin-bottom: 20px;
+}
+
+a {
+  color: #0969da;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1, h2 {
+  color: #1a365d;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #d0d7de;
+  margin: 20px 0;
+}
+
+.capa {
+  text-align: center;
+  padding: 30px 20px;
+  border: 1px solid #d0d7de;
+}
+
+.capa img {
+  max-width: 100%;
+  margin-bottom: 15px;
+}
+
+input, select, button {
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #d0d7de;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f6f8;
+}
+
+.form-inline {
+  display: inline;
+}
+
+.mensagem {
+  padding: 8px 12px;
+  border: 1px solid #d0d7de;
+  background-color: #f4f6f8;
+}

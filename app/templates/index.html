@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Página Inicial{% endblock %}
+
+{% block content %}
+<div class="capa">
+  <!-- Logótipo da Escola (coloca a imagem na pasta app/static e altera o filename se necessário) -->
+  <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logótipo da Escola" width="220">
+
+  <!-- Identificação da Escola -->
+  <h1>Agrupamento de Escolas Santos Simões</h1>
+
+  <hr>
+
+  <!-- Dados do Trabalho (edita os textos abaixo diretamente no HTML) -->
+  <p><strong>Nome do Aluno:</strong> Nome do Aluno</p>
+  <p><strong>Turma:</strong> 12ºE2</p>
+  <p><strong>Disciplina:</strong> Sistemas de Informação</p>
+  <p><strong>Ano Letivo:</strong> 2026/2027</p>
+</div>
+{% endblock %}
